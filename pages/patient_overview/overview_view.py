@@ -8,9 +8,9 @@ from pages.patient_overview.overview_model import load_patients
 
 dash.register_page(__name__, path="/")
 
-# Read the local image file and encode it to Base64
-#with open("./images/Woodpecker_Birds_Bokeh.jpg", "rb") as img_file:
-#    encoded_image = base64.b64encode(img_file.read()).decode('utf-8')
+#Read the local image file and encode it to Base64
+with open("./images/img.png", "rb") as img_file:
+    encoded_image = base64.b64encode(img_file.read()).decode('utf-8')
 
 # Show observations in a table
 layout = html.Div(
@@ -23,11 +23,11 @@ layout = html.Div(
         'z-index': '-1',
         'backgroundPosition': 'center',
         'backgroundSize': 'cover',
-#        'backgroundImage': f'url("data:image/jpeg;base64,{encoded_image}")',
+        'backgroundImage': f'url("data:image/jpeg;base64,{encoded_image}")',
     },
     children=[
         html.H1("Patient Overview", className="display-4 text-center mb-4",
-                style={'font-size': '3em', 'font-weight': 'bold', 'padding-top': '30px'}),
+                style={'font-size': '2.5em', 'font-weight': 'bold', 'padding-top': '30px'}),
         html.Div(id='patients-table',
                  style={'overflow-y': 'scroll', 'max-height': '600px', 'margin': 'auto', 'max-width': '800px'})
 

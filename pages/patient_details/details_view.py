@@ -47,7 +47,7 @@ def layout(id=None):
                     ),
                     style={'position': 'absolute', 'top': '30px', 'left': '0', 'width': '100%', 'zIndex': '1'}
                 ),
-                dcc.Graph(id='ecg-plot', style={'width': '100%', 'height': '95vh', 'opacity': 0.8}, responsive=True),
+                dcc.Graph(id='ecg-plot', style={'width': '100%', 'height': '95vh', 'opacity': 0.9}, responsive=True),
             ]
         )
 
