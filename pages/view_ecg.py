@@ -29,44 +29,44 @@ for i in range(11, -1, -1):
     traces.append(trace)
 
 #Read the local image file and encode it to Base64
-with open("./images/EkgEditPage.png", "rb") as img_file:
+with open("./images/EkgViewPage.png", "rb") as img_file:
     encoded_image = base64.b64encode(img_file.read()).decode('utf-8')
 
 # Show animals in a table
 layout = html.Div(
-    style={'position': 'fixed',
-                       'top': '10',
-                       'left': '0',
-                       'width': '100%',
-                       'height': '100vh',
-                       'z-index': '-1',
-                       'backgroundPosition': 'center',
-                       'backgroundSize': 'cover',
-                       'backgroundImage': f'url("data:image/jpeg;base64,{encoded_image}")'
-                       },
+    style={
+        'position': 'fixed',
+        'top': '10',
+        'left': '0',
+        'width': '100%',
+        'height': '100vh',
+        'z-index': '-1',
+        'backgroundPosition': 'center',
+        'backgroundSize': 'cover',
+        'backgroundImage': f'url("data:image/jpeg;base64,{encoded_image}")'
+    },
     children=[
         dcc.Graph(
             id='ecg-plot',
             figure={
                 'data': traces,
                 'layout': go.Layout(
-                    title='ECG Signals',
+                    title={'text': 'ECG Signals', 'font': {'size': 30}},  # Anpassen der Schriftgröße des Titels
                     xaxis=dict(
-                            title='Time (sec)',
-                            tickvals=np.arange(0, 1000, 100),
-                            ticktext=x_axis_names
-                        ),
+                        title={'text': 'Time (sec)', 'font': {'size': 17}},
+                        tickvals=np.arange(0, 1000, 100),
+                        ticktext=x_axis_names
+                    ),
                     yaxis=dict(
-                            title='ECG',
-                            tickvals=np.arange(1,13,1),
-                            ticktext=y_axis_names,
+                        title={'text': 'ECG', 'font': {'size': 17}},
+                        tickvals=np.arange(1, 13, 1),
+                        ticktext=y_axis_names,
                     ),
                     showlegend=True,
-                    height=1000
+
                 )
             },
-            style={'opacity': 0.9}
-
+            style={'width': '100%', 'height': '95vh', 'opacity': 0.9}  # Proportionale Anpassung des Graphen
         )
     ]
 )
