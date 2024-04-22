@@ -14,6 +14,22 @@ print("load data")
 
 ecg_sample = np.loadtxt('ecg_sample.csv', delimiter=',')
 
+
+num_signals = ecg_sample.shape[1]
+print(num_signals)
+
+traces = []
+for i in range(11, -1, -1):
+    trace = go.Scatter(
+        x=list(range(len(ecg_sample))),
+        y=ecg_sample[:, i] + i,  # Verschiebe jede Linie vertikal, um Überlappungen zu vermeiden
+        mode='lines',
+        name=f'Signal {i+1}'
+    )
+    traces.append(trace)
+
+print(traces[1])
+"""
 # Create traces for each signal
 traces = []
 for i in range(ecg_sample.shape[1]):
@@ -24,11 +40,15 @@ for i in range(ecg_sample.shape[1]):
         name=f'Signal {i+1}'
     )
     traces.append(trace)
+"""
 
+#Read the local image file and encode it to Base64
+with open("./images/EkgEditPage.png", "rb") as img_file:
+    encoded_image = base64.b64encode(img_file.read()).decode('utf-8')
 
-# Read the local image file and encode it to Base64
-#with open("./images/Rivers_Forests_Mountains_American_bison_Grass.jpg", "rb") as img_file:
-#    encoded_image = base64.b64encode(img_file.read()).decode('utf-8')
+y_axis_names = ['V6', 'V5', 'V4', 'V3', 'V2', 'V1', 'AVF', 'AVL', 'AVR', 'III', 'II', 'I']
+x_axis_names = ['', '1', '2', '3', '4', '5',
+                '6', '7', '8', '9', '10']
 
 # Show animals in a table
 layout = html.Div(
@@ -38,36 +58,27 @@ layout = html.Div(
         dcc.Graph(
             id='ecg-plot',
             figure={
-                'data': traces,
+                'data': list(reversed(traces)),
                 'layout': go.Layout(
                     title='ECG Signals',
-                    xaxis={'title': 'Sample'},
-                    yaxis={'title': 'Amplitude'},
+                    xaxis=dict(
+                            title='Time (sec)',
+                            tickvals=np.arange(0, 1000, 100),
+                            ticktext=x_axis_names
+                        ),
+                    yaxis=dict(
+                            title='ECG',
+                            tickvals=np.arange(12),
+                            ticktext=y_axis_names
+                        ),
+                    #yaxis={'title': 'ECG'},
                     showlegend=True,
-                    height=800,
-                    width=1000
+                    height=800
+                    #width=1000
                 )
             }
         )
-    ] + [dcc.Graph(
-        id=f'ecg-plot-{i}',
-        figure={
-            'data': [go.Scatter(
-                x=list(range(len(ecg_sample))),
-                y=ecg_sample[:, i],
-                mode='lines',
-                name=f'Signal {i + 1}'
-            )],
-            'layout': go.Layout(
-                title=f'Signal {i + 1}',
-                xaxis={'title': 'Sample'},
-                yaxis={'title': 'Amplitude'},
-                showlegend=True,
-                height=400,
-                width=800
-            )
-        }
-    ) for i in range(ecg_sample.shape[1])]
+    ]
 )
 
 # Callback executed when page is loaded
