@@ -14,51 +14,41 @@ print("load data")
 
 ecg_sample = np.loadtxt('ecg_sample.csv', delimiter=',')
 
-
-num_signals = ecg_sample.shape[1]
-print(num_signals)
+y_axis_names = ['V6', 'V5', 'V4', 'V3', 'V2', 'V1', 'AVF', 'AVL', 'AVR', 'III', 'II', 'I']
+x_axis_names = ['', '1', '2', '3', '4', '5',
+                '6', '7', '8', '9', '10']
 
 traces = []
 for i in range(11, -1, -1):
     trace = go.Scatter(
         x=list(range(len(ecg_sample))),
-        y=ecg_sample[:, i] + i,  # Verschiebe jede Linie vertikal, um Überlappungen zu vermeiden
+        y=ecg_sample[:, i] + 12-i,  # Verschiebe jede Linie vertikal, um Überlappungen zu vermeiden
         mode='lines',
-        name=f'Signal {i+1}'
+        name=f'{y_axis_names[-(i + 1)]}'
     )
     traces.append(trace)
-
-print(traces[1])
-"""
-# Create traces for each signal
-traces = []
-for i in range(ecg_sample.shape[1]):
-    trace = go.Scatter(
-        x=list(range(len(ecg_sample))),
-        y=ecg_sample[:, i],
-        mode='lines',
-        name=f'Signal {i+1}'
-    )
-    traces.append(trace)
-"""
 
 #Read the local image file and encode it to Base64
 with open("./images/EkgEditPage.png", "rb") as img_file:
     encoded_image = base64.b64encode(img_file.read()).decode('utf-8')
 
-y_axis_names = ['V6', 'V5', 'V4', 'V3', 'V2', 'V1', 'AVF', 'AVL', 'AVR', 'III', 'II', 'I']
-x_axis_names = ['', '1', '2', '3', '4', '5',
-                '6', '7', '8', '9', '10']
-
 # Show animals in a table
 layout = html.Div(
+    style={'position': 'fixed',
+                       'top': '10',
+                       'left': '0',
+                       'width': '100%',
+                       'height': '100vh',
+                       'z-index': '-1',
+                       'backgroundPosition': 'center',
+                       'backgroundSize': 'cover',
+                       'backgroundImage': f'url("data:image/jpeg;base64,{encoded_image}")'
+                       },
     children=[
-        html.H1("ECG Data", className="display-4 text-center mb-4",
-                style={'font-size': '3em', 'font-weight': 'bold', 'padding-top': '40px'}),
         dcc.Graph(
             id='ecg-plot',
             figure={
-                'data': list(reversed(traces)),
+                'data': traces,
                 'layout': go.Layout(
                     title='ECG Signals',
                     xaxis=dict(
@@ -68,15 +58,15 @@ layout = html.Div(
                         ),
                     yaxis=dict(
                             title='ECG',
-                            tickvals=np.arange(12),
-                            ticktext=y_axis_names
-                        ),
-                    #yaxis={'title': 'ECG'},
+                            tickvals=np.arange(1,13,1),
+                            ticktext=y_axis_names,
+                    ),
                     showlegend=True,
-                    height=800
-                    #width=1000
+                    height=1000
                 )
-            }
+            },
+            style={'opacity': 0.9}
+
         )
     ]
 )

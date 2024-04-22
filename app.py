@@ -7,19 +7,6 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], use_pages
 
 nav = dbc.NavbarSimple(
     [
-        # dropdown for adding entries
-        """
-        dbc.DropdownMenu(
-            children=[
-                dbc.DropdownMenuItem(page['name'], href=page['path'])
-                for page in dash.page_registry.values() if "Add" in page['name']
-            ],
-            nav=True,
-            in_navbar=True,
-            label="Add Wildlife",
-        )
-        """
-        ,
 
         # dropdown for editing entries
         dbc.DropdownMenu(
@@ -31,18 +18,6 @@ nav = dbc.NavbarSimple(
                     in_navbar=True,
                     label="Edit Data",
                 ),
-        # dropdown for analysis
-        """
-        dbc.DropdownMenu(
-                    children=[
-                        dbc.DropdownMenuItem(page['name'], href=page['path'])
-                        for page in dash.page_registry.values() if "Analyze" in page['name']
-                    ],
-                    nav=True,
-                    in_navbar=True,
-                    label="Analyze",
-                ),
-        """
     ],
     brand="ECG Data",
     brand_href="/",
