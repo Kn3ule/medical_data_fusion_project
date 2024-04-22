@@ -38,6 +38,17 @@ Installieren Sie die erforderlichen Python-Pakete aus der `requirements.txt`-Dat
 pip install -r requirements.txt
 ```
 
+### 6. Postgres Datenbank erstellen und mit Daten füllen
+
+Um die Metadaten und die SCP_Statements in eine relationale Datenbank zu speichern, müssen folgende Schritte erledigt werden:
+
+- PostgreSQL installieren und Datenbank initiieren
+- .env File im Projekt anlegen und folgende env-variable erstellen:
+```python
+ POSTGRES_URL="postgresql://username:password@host:port/dbname"
+```
+- database.py ausführen um Tables zu erstellen
+- copy csv-files to tables (Header True, Seperater ,) (ptbxl_database.csv -> metadata, scp_satements.csv -> scpstatements)
 
 
 
