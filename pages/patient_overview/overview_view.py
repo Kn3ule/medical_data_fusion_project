@@ -9,7 +9,7 @@ from pages.patient_overview.overview_model import load_patients
 dash.register_page(__name__, path="/")
 
 #Read the local image file and encode it to Base64
-with open("./images/img.png", "rb") as img_file:
+with open("./images/PatientOverview.png", "rb") as img_file:
     encoded_image = base64.b64encode(img_file.read()).decode('utf-8')
 
 # Show observations in a table
