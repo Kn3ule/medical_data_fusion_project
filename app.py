@@ -21,7 +21,7 @@ nav = dbc.NavbarSimple(
     ],
     brand="ECG Data",
     brand_href="/",
-    color="dark",
+    color="#333333",
     dark=True,
 )
 

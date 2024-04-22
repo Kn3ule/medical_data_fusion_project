@@ -10,13 +10,8 @@ from pages.patient_details.details_model import load_recordings, load_ecg
 
 dash.register_page(__name__, path_template='/details-view/<id>')
 
-
-#ecg_sample = np.loadtxt('ecg_sample.csv', delimiter=',')
-
-
-
 #Read the local image file and encode it to Base64
-with open("./images/EkgEditPage.png", "rb") as img_file:
+with open("./images/EkgViewPage.png", "rb") as img_file:
     encoded_image = base64.b64encode(img_file.read()).decode('utf-8')
 
 def layout(id=None):
@@ -27,28 +22,34 @@ def layout(id=None):
     if patient_id is not None:
         options = [{'label': row['recording_date'], 'value': row['filename_lr']} for index, row in load_recordings(patient_id).iterrows()]
 
-
         return html.Div(
-    style={#'position': 'fixed',
-                       'top': '10',
-                       'left': '0',
-                       'width': '100%',
-                       'height': '100vh',
-                       'z-index': '-1',
-                       'backgroundPosition': 'center',
-                       'backgroundSize': 'cover',
-                       'backgroundImage': f'url("data:image/jpeg;base64,{encoded_image}")'
-                       },
-    children=[
-    dcc.Dropdown(
-                                                         id='recordings-dropdown',
-                                                         options = options,
-                                                         value = options[0]['value'],
-                                                         placeholder='Select Recording'
-                                                     ),
-        dcc.Graph(id='ecg-plot',style={'opacity': 0.9}),
-    ]
-)
+            style={
+                'position': 'fixed',
+                'top': '10',
+                'left': '0',
+                'width': '100%',
+                'height': '100vh',
+                'z-index': '-1',
+                'backgroundPosition': 'center',
+                'backgroundSize': 'cover',
+                'backgroundImage': f'url("data:image/jpeg;base64,{encoded_image}")'
+            },
+            children=[
+                html.Div(
+                    dcc.Dropdown(
+                        id='recordings-dropdown',
+                        options=options,
+                        value=options[0]['value'],
+                        placeholder='Select Recording',
+                        style={'width': '50%', 'position': 'absolute', 'top': '10px', 'left': '50px',
+                               'backgroundColor': 'rgba(240, 240, 240, 0.5)', 'zIndex': '1','maxWidth': '500px'},
+
+                    ),
+                    style={'position': 'absolute', 'top': '30px', 'left': '0', 'width': '100%', 'zIndex': '1'}
+                ),
+                dcc.Graph(id='ecg-plot', style={'width': '100%', 'height': '95vh', 'opacity': 0.8}, responsive=True),
+            ]
+        )
 
 @callback(Output('ecg-plot', 'figure'),
           [Input('recordings-dropdown', 'value')])
@@ -73,19 +74,20 @@ def update_ecg_plot(filename_lr):
     figure={
                 'data': traces,
                 'layout': go.Layout(
-                    title='ECG Signals',
+                    title={'text': 'ECG Signals', 'font': {'size': 30}},
                     xaxis=dict(
-                            title='Time (sec)',
+                            title={'text': 'Time (sec)', 'font': {'size': 17}},
                             tickvals=np.arange(0, 1000, 100),
                             ticktext=x_axis_names
                         ),
                     yaxis=dict(
-                            title='ECG',
+                            title={'text': 'ECG', 'font': {'size': 17}},
                             tickvals=np.arange(1,13,1),
                             ticktext=y_axis_names,
                     ),
                     showlegend=True,
-                    height=1000
+
                 )
-            }
+    }
+
     return figure
