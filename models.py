@@ -3,7 +3,7 @@ from sqlalchemy import Column, ForeignKey, create_engine
 from sqlalchemy.sql.sqltypes import Integer, String, BigInteger, DateTime, Float,Boolean
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 
-engine = create_engine(os.getenv("POSTGRES_URL_2"))
+engine = create_engine(os.getenv("POSTGRES_URL"))
 base = declarative_base()
 conn = engine.connect()
 Session = sessionmaker()

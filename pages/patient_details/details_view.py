@@ -6,6 +6,7 @@ from dash import html, callback, Output, Input, dcc
 import plotly.graph_objs as go
 
 from pages.patient_details.details_model import load_recordings, load_ecg
+from pages.patient_details.details_controller import update_ecg_plot
 
 
 dash.register_page(__name__, path_template='/details-view/<id>')
@@ -50,44 +51,3 @@ def layout(id=None):
                 dcc.Graph(id='ecg-plot', style={'width': '100%', 'height': '95vh', 'opacity': 0.9}, responsive=True),
             ]
         )
-
-@callback(Output('ecg-plot', 'figure'),
-          [Input('recordings-dropdown', 'value')])
-def update_ecg_plot(filename_lr):
-
-    ecg_data = load_ecg(filename_lr)
-
-    y_axis_names = ['V6', 'V5', 'V4', 'V3', 'V2', 'V1', 'AVF', 'AVL', 'AVR', 'III', 'II', 'I']
-    x_axis_names = ['', '1', '2', '3', '4', '5',
-                    '6', '7', '8', '9', '10']
-
-    traces = []
-    for i in range(11, -1, -1):
-        trace = go.Scatter(
-            x=list(range(len(ecg_data))),
-            y=ecg_data[:, i] + 12 - i,  # Verschiebe jede Linie vertikal, um Überlappungen zu vermeiden
-            mode='lines',
-            name=f'{y_axis_names[-(i + 1)]}'
-        )
-        traces.append(trace)
-
-    figure={
-                'data': traces,
-                'layout': go.Layout(
-                    title={'text': 'ECG Signals', 'font': {'size': 30}},
-                    xaxis=dict(
-                            title={'text': 'Time (sec)', 'font': {'size': 17}},
-                            tickvals=np.arange(0, 1000, 100),
-                            ticktext=x_axis_names
-                        ),
-                    yaxis=dict(
-                            title={'text': 'ECG', 'font': {'size': 17}},
-                            tickvals=np.arange(1,13,1),
-                            ticktext=y_axis_names,
-                    ),
-                    showlegend=True,
-
-                )
-    }
-
-    return figure

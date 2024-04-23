@@ -2,9 +2,11 @@ import base64
 
 import dash
 import pandas as pd
-from dash import html, callback, Output, Input
+from dash import html, callback, Output, Input, dcc
 from models import engine
 from pages.patient_overview.overview_model import load_patients
+
+from pages.patient_overview.overview_controller import patient_overview
 
 dash.register_page(__name__, path="/")
 
@@ -28,52 +30,15 @@ layout = html.Div(
     children=[
         html.H1("Patient Overview", className="display-4 text-center mb-4",
                 style={'font-size': '2.5em', 'font-weight': 'bold', 'padding-top': '30px'}),
+        # Search input and button
+        html.Div([
+            html.Label('Enter Patient ID:'),
+            html.Div([
+                dcc.Input(id='search-input', type='text', value='', debounce=True),
+                html.Button('Search', id='search-button', n_clicks=0),
+            ]),
+        ]),
         html.Div(id='patients-table',
                  style={'overflow-y': 'scroll', 'max-height': '600px', 'margin': 'auto', 'max-width': '800px'})
 
     ])
-
-# Callback executed when page is loaded
-@callback(Output('patients-table', 'children'),
-          [Input('url', 'pathname')])
-def update_recent_observations(pathname):
-    print("test")
-    print(pathname)
-    print(load_patients().columns)
-    # If the page is the start page, the table is loaded
-    if pathname == '/':
-        print("if")
-        return html.Table(
-            className="table",
-            style={'opacity': '0.9'},
-            children=[
-                # Table header
-                html.Thead(
-                    html.Tr([
-                                html.Th(col, style={'padding': '12px', 'text-align': 'center', 'font-weight': 'bold',
-                                                    'background-color': '#343a40', 'color': 'white',
-                                                    'position': 'sticky', 'top': '0'})
-                                for col in load_patients().columns
-                                # Add additional column for details
-                            ] + [html.Th("Details", style={'padding': '12px', 'margin': '0', 'text-align': 'center',
-                                                           'font-weight': 'bold',
-                                                           'background-color': '#343a40', 'color': 'white',
-                                                           'position': 'sticky', 'top': '0'})])
-                ),
-                # Table body
-                html.Tbody([
-                    html.Tr([
-                                html.Td(str(row[col]), style={'padding': '12px', 'text-align': 'center'}) for col in
-                                load_patients().columns
-                            ] + [
-                                # Add link to the edit page of each row
-                                html.Td(
-                                    html.A(
-                                        html.Img(src="/assets/edit-button.png", style={'height': '20px', 'width': '20px'}),
-                                        href=f"/details-view/{row['ID']}"),
-                                    style={'text-align': 'center', 'padding': '12px'}
-                                ),
-                            ]) for row in load_patients().to_dict('records')
-                ], style={'background-color': 'black'})
-            ],
-        )
