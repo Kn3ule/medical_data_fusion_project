@@ -2,7 +2,7 @@ import base64
 
 import dash
 import pandas as pd
-from dash import html, callback, Output, Input, dcc
+from dash import html, callback, Output, Input, dcc, dash_table
 from models import engine
 from pages.patient_overview.overview_model import load_patients
 
@@ -30,15 +30,6 @@ layout = html.Div(
     children=[
         html.H1("Patient Overview", className="display-4 text-center mb-4",
                 style={'font-size': '2.5em', 'font-weight': 'bold', 'padding-top': '30px'}),
-        # Search input and button
-        html.Div([
-            html.Label('Enter Patient ID:'),
-            html.Div([
-                dcc.Input(id='search-input', type='text', value='', debounce=True),
-                html.Button('Search', id='search-button', n_clicks=0),
-            ]),
-        ]),
         html.Div(id='patients-table',
                  style={'overflow-y': 'scroll', 'max-height': '600px', 'margin': 'auto', 'max-width': '800px'})
-
     ])

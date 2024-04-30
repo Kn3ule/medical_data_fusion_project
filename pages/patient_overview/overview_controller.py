@@ -1,9 +1,9 @@
 import dash
 import pandas as pd
-from dash import html, callback, Output, Input, State
+from dash import html, callback, Output, Input, State, dash_table
 
 from pages.patient_overview.overview_model import load_patients, load_patient_numbers, load_patient_with_id
-
+    
 
 # Callback executed when page is loaded
 @callback(Output('patients-table', 'children'),
