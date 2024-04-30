@@ -1,10 +1,30 @@
 import dash
 import pandas as pd
 from dash import html, callback, Output, Input, State, dash_table
-
+import dash_ag_grid as dag
 from pages.patient_overview.overview_model import load_patients, load_patient_numbers, load_patient_with_id
-    
 
+
+# Callback executed when page is loaded
+@callback(Output('patients-table', 'children'),
+          [Input('url', 'pathname')])
+def patient_overview(pathname):
+    # If the page is the start page, the table is loaded
+    if pathname == '/':
+        df = load_patients()
+
+        return dag.AgGrid(
+            rowData=df.to_dict("records"),
+            columnDefs=[
+                {"field": "ID", "filter": "agNumberColumnFilter", "maxWidth": 100},
+                {"field": "Age", "filter": "agNumberColumnFilter", "maxWidth": 100},
+                {"field": "Sex", "filter": "agNumberColumnFilter", "maxWidth": 100},
+                {"field": "Height", "filter": "agNumberColumnFilter", "maxWidth": 100}
+                ],
+            dashGridOptions={"pagination": True, "paginationAutoPage": True}
+        )
+    
+'''
 # Callback executed when page is loaded
 @callback(Output('patients-table', 'children'),
           [Input('url', 'pathname')])
@@ -45,3 +65,4 @@ def patient_overview(pathname):
                 ], style={'background-color': 'black'})
             ],
         )
+        '''
