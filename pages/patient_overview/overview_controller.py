@@ -4,7 +4,18 @@ from dash import html, callback, Output, Input, State, dash_table
 import dash_ag_grid as dag
 from pages.patient_overview.overview_model import load_patients, load_patient_numbers, load_patient_with_id
 
+'''
+# Callback executed when page is loaded
+@callback(Output('patients-table', 'children'),
+          [Input('url', 'pathname')])
+def patient_overview(pathname):
+    # If the page is the start page, the table is loaded
+    if pathname == '/':
+        df = load_patients()
 
+        return dash_table.DataTable(df.to_dict('records'), [{"name": i, "id": i} for i in df.columns])
+    
+'''
 # Callback executed when page is loaded
 @callback(Output('patients-table', 'children'),
           [Input('url', 'pathname')])
@@ -16,12 +27,14 @@ def patient_overview(pathname):
         return dag.AgGrid(
             rowData=df.to_dict("records"),
             columnDefs=[
-                {"field": "ID", "filter": "agNumberColumnFilter", "maxWidth": 100},
-                {"field": "Age", "filter": "agNumberColumnFilter", "maxWidth": 100},
-                {"field": "Sex", "filter": "agNumberColumnFilter", "maxWidth": 100},
-                {"field": "Height", "filter": "agNumberColumnFilter", "maxWidth": 100}
+                {"field": "ID", "filter": "agNumberColumnFilter", "cellRenderer": "Details"},
+                {"field": "Age", "filter": "agNumberColumnFilter"},
+                {"field": "Sex", "filter": "agNumberColumnFilter"},
+                {"field": "Height", "filter": "agNumberColumnFilter"},
+                {"field": "Weight", "filter": "agNumberColumnFilter"}
                 ],
-            dashGridOptions={"pagination": True, "paginationAutoPage": True}
+            dashGridOptions={"pagination": True, "paginationAutoPage": True},
+            columnSize="sizeToFit"
         )
     
 '''
