@@ -3,7 +3,7 @@ var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGrid
 dagcomponentfuncs.Details = function (props) {
     return React.createElement(
         'a',
-        {href: '/details-view/' + props.value},
+        {href: '/ecg-view/' + props.value},
         props.value
     );
 };
