@@ -5,8 +5,8 @@ import numpy as np
 from dash import html, callback, Output, Input, dcc
 import plotly.graph_objs as go
 
-from pages.patient_details.details_model import load_recordings, load_ecg
-from pages.patient_details.details_controller import update_ecg_plot
+from pages.patient_ecg.ecg_model import load_recordings, load_ecg
+from pages.patient_ecg.ecg_controller import update_ecg_plot
 
 
 dash.register_page(__name__, path_template='/ecg-view/<id>')

@@ -13,7 +13,7 @@ def load_recordings(id):
 
 def load_ecg(filename_lr):
 
-    base_path = 'ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/'
+    base_path = 'C:/Users/Delta.MSI/Downloads/ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/'
 
     data = [wfdb.rdsamp(base_path + f) for f in [filename_lr]]
 
