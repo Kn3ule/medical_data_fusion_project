@@ -28,6 +28,8 @@ def patient_overview(pathname):
             rowData=df.to_dict("records"),
             columnDefs=[
                 {"field": "ID", "filter": "agNumberColumnFilter", "cellRenderer": "Details"},
+                {"field": "Date", "filter": "agNumberColumnFilter"},
+                {"field": "Patient", "filter": "agNumberColumnFilter"},
                 {"field": "Age", "filter": "agNumberColumnFilter"},
                 {"field": "Sex", "filter": "agNumberColumnFilter"},
                 {"field": "Height", "filter": "agNumberColumnFilter"},

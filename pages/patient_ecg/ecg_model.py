@@ -9,7 +9,7 @@ from models import engine
 
 # Load recordings from database
 def load_recordings(id):
-    return pd.read_sql("""SELECT recording_date, filename_lr FROM metadata WHERE patient_id = %s;""", engine, params=(int(id),))
+    return pd.read_sql("""SELECT recording_date, filename_lr FROM metadata WHERE ecg_id = %s;""", engine, params=(int(id),))
 
 def load_ecg(filename_lr):
 
