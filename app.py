@@ -8,16 +8,7 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], use_pages
 nav = dbc.NavbarSimple(
     [
 
-        # dropdown for editing entries
-        dbc.DropdownMenu(
-                    children=[
-                        dbc.DropdownMenuItem(page['name'], href=page['path'])
-                        for page in dash.page_registry.values() if "View" in page['name'] and "observation" not in page['name']
-                    ],
-                    nav=True,
-                    in_navbar=True,
-                    label="Edit Data",
-                ),
+
     ],
     brand="ECG Data",
     brand_href="/",

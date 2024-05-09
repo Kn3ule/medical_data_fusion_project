@@ -1,6 +1,6 @@
 from dash import callback, Output, Input
 
-from pages.patient_ecg.ecg_model import load_ecg
+from pages.patient_ecg.ecg_model import load_ecg100, load_ecg500, load_ecg
 import numpy as np
 import plotly.graph_objs as go
 
@@ -15,13 +15,18 @@ def register_callbacks():
 
 @callback(Output('ecg-plot', 'figure'),
           [Input('recordings-dropdown', 'value')])
-def update_ecg_plot(filename_lr):
+def update_ecg_plot(filename):
+    # Überprüfe die letzten beiden Buchstaben
+    if filename[-2:] == "lr":
+        ecg_data=load_ecg100(filename)
+    else:
+        ecg_data=load_ecg500(filename)
 
-    ecg_data = load_ecg(filename_lr)
+    #ecg_data = load_ecg100(filename_lr)
 
     y_axis_names = ['V6', 'V5', 'V4', 'V3', 'V2', 'V1', 'AVF', 'AVL', 'AVR', 'III', 'II', 'I']
-    x_axis_names = ['', '1', '2', '3', '4', '5',
-                    '6', '7', '8', '9', '10']
+    x_axis_names = [''] #['', '1', '2', '3', '4', '5',
+                    #'6', '7', '8', '9', '10', '11', '12']
 
     traces = []
     for i in range(11, -1, -1):
@@ -38,9 +43,9 @@ def update_ecg_plot(filename_lr):
                 'layout': go.Layout(
                     title={'text': 'ECG Signals', 'font': {'size': 30}},
                     xaxis=dict(
-                            title={'text': 'Time (sec)', 'font': {'size': 17}},
-                            tickvals=np.arange(0, 1000, 100),
-                            ticktext=x_axis_names
+                            title={'text': '', 'font': {'size': 17}},#Time (sec)
+                            #tickvals=np.arange(0, 1000, 100),
+                            #ticktext=x_axis_names
                         ),
                     yaxis=dict(
                             title={'text': 'ECG', 'font': {'size': 17}},

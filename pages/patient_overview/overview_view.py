@@ -31,5 +31,5 @@ layout = html.Div(
         html.H1("Patient Overview", className="display-4 text-center mb-4",
                 style={'font-size': '2.5em', 'font-weight': 'bold', 'padding-top': '30px'}),
         html.Div(id='patients-table',
-                 style={'overflow-y': 'scroll', 'max-height': '600px', 'margin': 'auto', 'max-width': '800px'})
+                 style={'max-height': '600px', 'margin': 'auto', 'max-width': '800px'})
     ])

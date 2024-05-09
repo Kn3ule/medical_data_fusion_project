@@ -21,7 +21,17 @@ def layout(id=None):
     patient_id = id
 
     if patient_id is not None:
-        options = [{'label': row['recording_date'], 'value': row['filename_lr']} for index, row in load_recordings(patient_id).iterrows()]
+        options = [{'label': '100', 'value': row['filename_lr']} for index, row in
+                      load_recordings(patient_id).iterrows()]
+        options += [{'label': '500', 'value': row['filename_hr']} for index, row in
+                      load_recordings(patient_id).iterrows()]
+        #options = [{'label': f"{row['recording_date']} - LR: {row['filename_lr']} / HR: {row['filename_hr']}",
+                    #'value': (row['filename_lr'], row['filename_hr'])} for index, row in
+                   #load_recordings(patient_id).iterrows()]
+
+
+    #if patient_id is not None:
+        #options = [{'label': row['recording_date'], 'value': row['filename_lr']} for index, row in load_recordings(patient_id).iterrows()]
 
         return html.Div(
             style={
