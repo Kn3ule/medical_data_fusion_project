@@ -55,7 +55,12 @@ def layout(id=None):
             dcc.Graph(id='ecg-plot', style={'width': '100%', 'height': '95vh', 'opacity': 0.9}, responsive=True),
             html.Div(
                 children=[
-                    html.Div(detail, style={'margin-bottom': '5px'}) for detail in details_list
+                    html.Div([
+                        html.P([html.Strong(f'{header}: '), value],
+                               style={'color': 'black', 'display': 'block', 'margin-bottom': '5px'})
+                        for header, value in zip(details.columns, row)
+                    ], style={'background-color': 'rgba(240, 240, 240, 0.5)'})
+                    for _, row in details.iterrows()
                 ],
                 style={'position': 'absolute', 'top': '10px', 'right': '150px',
                        'backgroundColor': 'rgba(270, 270, 270, 0.0)', 'zIndex': '2', 'padding': '0px',
@@ -63,6 +68,5 @@ def layout(id=None):
             )
         ]
     )
-
 
 
