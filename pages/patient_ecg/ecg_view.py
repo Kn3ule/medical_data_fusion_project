@@ -64,12 +64,5 @@ def layout(id=None):
         ]
     )
 
-@callback(
-    Output('details-container', 'style'),
-    Input('details-dropdown', 'value')
-)
-def display_details(selected_detail):
-    if selected_detail:
-        return {'display': 'block'}
-    else:
-        return {'display': 'none'}
+
+
