@@ -1,6 +1,6 @@
 from dash import callback, Output, Input
 
-from pages.patient_ecg.ecg_model import load_ecg100, load_ecg500, load_ecg
+from pages.patient_ecg.ecg_model import load_ecg100, load_ecg500, load_ecg, load_details_for_ecg
 import numpy as np
 import plotly.graph_objs as go
 
@@ -58,3 +58,11 @@ def update_ecg_plot(filename):
     }
 
     return figure
+
+'''
+@callback(Output('detail-information', 'children'),
+          [Input('url', 'href')])
+def update_ecg_plot(url):
+    print(url)
+
+'''

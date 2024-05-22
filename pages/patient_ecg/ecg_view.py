@@ -5,7 +5,7 @@ import numpy as np
 from dash import html, callback, Output, Input, dcc
 import plotly.graph_objs as go
 
-from pages.patient_ecg.ecg_model import load_recordings, load_ecg
+from pages.patient_ecg.ecg_model import load_recordings, load_ecg, load_details_for_ecg
 from pages.patient_ecg.ecg_controller import update_ecg_plot
 
 
@@ -21,13 +21,15 @@ def layout(id=None):
     patient_id = id
 
     if patient_id is not None:
-        options = [{'label': '100', 'value': row['filename_lr']} for index, row in
+        options = [{'label': '100 Hz', 'value': row['filename_lr']} for index, row in
                       load_recordings(patient_id).iterrows()]
-        options += [{'label': '500', 'value': row['filename_hr']} for index, row in
+        options += [{'label': '500 Hz', 'value': row['filename_hr']} for index, row in
                       load_recordings(patient_id).iterrows()]
         #options = [{'label': f"{row['recording_date']} - LR: {row['filename_lr']} / HR: {row['filename_hr']}",
                     #'value': (row['filename_lr'], row['filename_hr'])} for index, row in
                    #load_recordings(patient_id).iterrows()]
+        details = load_details_for_ecg(id)
+        print(details)
 
 
     #if patient_id is not None:
@@ -43,7 +45,8 @@ def layout(id=None):
                 'z-index': '-1',
                 'backgroundPosition': 'center',
                 'backgroundSize': 'cover',
-                'backgroundImage': f'url("data:image/jpeg;base64,{encoded_image}")'
+                'backgroundImage': f'url("data:image/jpeg;base64,{encoded_image}")',
+                'overflow-y': 'scroll'
             },
             children=[
                 html.Div(
@@ -59,5 +62,13 @@ def layout(id=None):
                     style={'position': 'absolute', 'top': '30px', 'left': '0', 'width': '100%', 'zIndex': '1'}
                 ),
                 dcc.Graph(id='ecg-plot', style={'width': '100%', 'height': '95vh', 'opacity': 0.9}, responsive=True),
+                html.Div([
+                    html.Div([
+                        html.P([html.Strong(f'{header}: '), value], style={'color': 'black', 'display': 'block', 'margin-bottom': '5px'})
+                        for header, value in zip(details.columns, row)
+                    ], style={'background-color': 'rgba(240, 240, 240, 0.5)'})
+                    for _, row in details.iterrows()
+                ], style={'position': 'absolute', 'bottom': '10px', 'left': '50px'}
+                )
             ]
         )

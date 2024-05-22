@@ -25,3 +25,4 @@ def save_patient_data(id, age, sex, height, weight):
         connection.execute(query,
                            {"new_age": age, "new_sex": sex, "new_height": height, "new_weight": weight,
                             "id": id})
+        connection.commit()

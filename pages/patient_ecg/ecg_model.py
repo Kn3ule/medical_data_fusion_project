@@ -15,7 +15,7 @@ def load_recordings(id):
 
 def load_ecg100(filename_lr):
 
-    base_path = 'D:/Studium/Master/Medical Data Fusion/ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/'
+    base_path = 'ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/'
 
     #data = [wfdb.rdsamp(base_path + f) for f in [filename_lr]]
 
@@ -32,7 +32,7 @@ def load_ecg100(filename_lr):
 
 def load_ecg(filename_lr, filename_hr):
 
-    base_path = 'D:/Studium/Master/Medical Data Fusion/ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/'
+    base_path = 'ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/'
 
     #data = [wfdb.rdsamp(base_path + f) for f in [filename_lr]]
 
@@ -51,7 +51,7 @@ def load_ecg(filename_lr, filename_hr):
 
 def load_ecg500(filename_hr):
 
-    base_path = 'D:/Studium/Master/Medical Data Fusion/ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/'
+    base_path = 'ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/'
 
     #data = [wfdb.rdsamp(base_path + f) for f in [filename_lr]]
 
@@ -65,3 +65,11 @@ def load_ecg500(filename_hr):
     hr_data = np.squeeze(np.array([signal for signal, meta in hr_data]))
 
     return hr_data
+
+def load_details_for_ecg(id):
+    return pd.read_sql("""SELECT recording_date, device, report, scp_codes FROM metadata WHERE ecg_id = %s;""", engine,
+                       params=(int(id),))
+
+def load_scp_information(scp_code):
+    return pd.read_sql("""SELECT recording_date, device, report, scp_codes FROM metadata WHERE ecg_id = %s;""", engine,
+                       params=(int(id),))
