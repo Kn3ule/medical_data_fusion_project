@@ -118,7 +118,7 @@ def layout(id=None):
                                      html.A(
                                          # Delete button
                                          html.Button('Delete ECG', id='delete-button-edit-patient', n_clicks=0,
-                                                     className='btn btn-secondary',
+                                                     className='btn btn-secondary', value=patient_id,
                                                      style={'padding': '10px 20px', 'margin': '10px'})),
                                      html.A(
                                          # Save button

@@ -26,3 +26,12 @@ def save_patient_data(id, age, sex, height, weight):
                            {"new_age": age, "new_sex": sex, "new_height": height, "new_weight": weight,
                             "id": id})
         connection.commit()
+
+def delete_patient_data(id):
+    query = text(f"""DELETE FROM metadata where ecg_id = {id}
+    ;""")
+
+    # Execute the UPDATE statement
+    with engine.connect() as connection:
+        connection.execute(query)
+        connection.commit()

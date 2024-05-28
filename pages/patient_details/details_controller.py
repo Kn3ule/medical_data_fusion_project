@@ -5,7 +5,7 @@ from dash import callback, Output, Input, State
 import numpy as np
 import plotly.graph_objs as go
 
-from pages.patient_details.details_model import save_patient_data
+from pages.patient_details.details_model import save_patient_data, delete_patient_data
 
 
 @callback(
@@ -44,3 +44,16 @@ def save_changes(n_clicks, id, age, sex, height, weight):
         return '', '/', True
 
     return '', '', False
+
+@callback(
+    Output('url-edit-ecg', 'href',
+           allow_duplicate=True),
+    #Output('url-view-ecg', 'refresh'),
+    [Input('delete-button-edit-patient', 'n_clicks'),
+     Input('delete-button-edit-patient', 'value')],
+prevent_initial_call=True
+)
+def delete_ecg(n_clicks, id):
+    if n_clicks > 0:
+        delete_patient_data(id)
+        return f'/'
