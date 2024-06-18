@@ -53,7 +53,16 @@ def layout(id=None):
                 style={'position': 'absolute', 'top': '10px', 'left': '0', 'width': '50%', 'zIndex': '1'}
             ),
             dcc.Graph(id='ecg-plot', style={'width': '100%', 'height': '95vh', 'opacity': 0.9}, responsive=True),
-            html.Div(id='average-heart-rate', style={'position': 'absolute', 'top': '100px', 'left': '0', 'width': '50%', 'zIndex': '1'}),
+            html.Div(
+                children=[
+                    html.Span("Average Heart Rate: ",
+                              style={'fontWeight': 'bold', 'marginLeft': '15px', 'display': 'inline-block'}),
+                    html.Span(id='average-heart-rate', style={'marginLeft': '5px', 'display': 'inline-block'}),
+                    html.Span("bpm", style={'marginLeft': '5px', 'display': 'inline-block'})
+                ],
+                style={'position': 'absolute', 'fontWeight': 'bold', 'top': '35px', 'left': '50%',
+                       'transform': 'translateX(-50%)', 'width': '50%', 'zIndex': '1'}
+            ),
             html.Div(
                 children=[
                     html.Div([
