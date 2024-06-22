@@ -67,9 +67,9 @@ def load_ecg500(filename_hr):
     return hr_data
 
 def load_details_for_ecg(id):
-    return pd.read_sql("""SELECT recording_date, device, report, scp_codes FROM metadata WHERE ecg_id = %s;""", engine,
+    return pd.read_sql("""SELECT recording_date, device, report FROM metadata WHERE ecg_id = %s;""", engine,
                        params=(int(id),))
 
 def load_scp_information(scp_code):
-    return pd.read_sql("""SELECT recording_date, device, report, scp_codes FROM metadata WHERE ecg_id = %s;""", engine,
+    return pd.read_sql("""SELECT recording_date, device, report FROM metadata WHERE ecg_id = %s;""", engine,
                        params=(int(id),))

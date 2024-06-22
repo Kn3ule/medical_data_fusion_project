@@ -4,6 +4,7 @@ from dash import callback, Output, Input, State
 #from pages.patient_details.details_model import load_ecg
 import numpy as np
 import plotly.graph_objs as go
+import dash_bootstrap_components as dbc
 
 from pages.patient_details.details_model import save_patient_data, delete_patient_data
 
@@ -38,8 +39,13 @@ def save_changes(n_clicks, id, age, sex, height, weight):
     if n_clicks is not None:
 
 
-        save_patient_data(id, age, sex, height, weight)
+        save = save_patient_data(id, age, sex, height, weight)
 
+        if save == False:
+            return dbc.Alert(
+                f"Please enter all values in the right format!",
+                dismissable=True,
+                color="warning"), '', False
 
         return '', '/', True
 

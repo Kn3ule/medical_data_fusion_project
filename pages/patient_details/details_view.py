@@ -55,7 +55,10 @@ def layout(id=None):
                                     value=patient_data['age'][0],
                                     style={'marginLeft': '10px'},
                                     disabled=False,
-                                    id='age-edit-input'
+                                    id='age-edit-input',
+                                    type='number',
+                                    min=0,
+                                    step=1
                                 ),
                             ]
                         ),
@@ -86,7 +89,9 @@ def layout(id=None):
                                          value=patient_data['height'][0],
                                          style={'marginLeft': '10px'},
                                          disabled=False,
-                                         id='height-edit-input'
+                                         id='height-edit-input',
+                                         type='number',
+                                         min=0
                                      ),
                                  ]
                              ),
@@ -100,7 +105,9 @@ def layout(id=None):
                                          value=patient_data['weight'][0],
                                          style={'marginLeft': '10px'},
                                          disabled=False,
-                                         id='weight-edit-input'
+                                         id='weight-edit-input',
+                                         type='number',
+                                         min=0
                                      ),
                                  ]
                              ),
